@@ -16,12 +16,8 @@ def ecdf(x):
 
     x_sorted = copy.copy(x)
     x_sorted.sort()
-    
-    x_l = len(x_sorted)
-    ecdf_x = ones(x_l)
-
-    for i in arange(0, x_l):
-        ecdf_x[i] = (i/float(x_l))
+    x_l = float(len(x_sorted))
+    ecdf_x = [i/x_l for i in  arange(0, x_l)] 
     return x_sorted,ecdf_x
 
 
@@ -47,6 +43,7 @@ class ProbVar:
             ppf = map(lambda v: lognorm.ppf(v, sigma, scale=exp(mu)), cdf)
             
             x = lognorm.rvs(sigma, scale=exp(mu), size=n)
+            x.sort()
  
             print "generating lognormal %s, p50 %0.3f, size %s" % (name, exp(mu), n)
             x_s, ecdf_x = ecdf(x)
@@ -66,6 +63,7 @@ class ProbVar:
  
             print "generating normal %s, p50 %0.3f, size %s" % (name, mu, n)
             x = norm.rvs(mu, scale=sigma, size=n)
+            x.sort()
             x_s,ecdf_x = ecdf(x)
             best_fit = norm.cdf((x-mean(x))/std(x))
             hist_y = norm.pdf(x_s, loc=mean(x), scale=std(x))
@@ -75,6 +73,7 @@ class ProbVar:
             ax1.plot(ppf, cdf, 'r-', linewidth=2)
             ax1.set_yscale('probit')
             ax1.plot(x_s, ecdf_x, 'o')
+            
             ax1.plot(x, best_fit, 'r--', linewidth=2)
 
             n, bins, patches = ax2.hist(x, normed=1, facecolor='green', alpha=0.75)
