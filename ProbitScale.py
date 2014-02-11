@@ -37,13 +37,17 @@ class ProbitScale (mscale.ScaleBase):
             return
 
         def transform(self, a):
-            
+           
             masked = ma.masked_where((a<=0) | (a>=1),a)
             if masked.mask.any():
                 for i in arange(0, len(masked)):
                     masked[i] = norm.ppf(masked[i]) if ((masked[i] < 1) and (masked[i] >0)) else masked[i]
                 return masked
             return norm.ppf(a)
+
+        # for matplotlib 1.3.1
+        def transform_non_affine(self, a):
+            return self.transform(a)
 
         def inverted(self):
             return ProbitScale.CDFTransform()
@@ -61,6 +65,10 @@ class ProbitScale (mscale.ScaleBase):
         def transform(self, a):
             
             return norm.cdf(a)
+
+        # for matplotlib 1.3.1
+        def transform_non_affine(self, a):
+            return self.transform(a)
 
         def inverted(self):
             return ProbitScale.ProbitTransform()
