@@ -32,7 +32,7 @@ class ProbVar:
             ax1 = fig.add_subplot(121, axisbelow=True)
             ax2 = fig.add_subplot(122, axisbelow=True)
             ax1.set_xlabel(name)
-            ax1.set_ylabel("Probability Less Than")
+            ax1.set_ylabel("ECDF and Best Fit CDF")
             prop = matplotlib.font_manager.FontProperties(size=8)
          
         if lognormal:
@@ -80,7 +80,7 @@ class ProbVar:
             bincenters = 0.5*(bins[1:]+bins[:-1])
             ax2.plot(x_s, hist_y, 'r--', linewidth=2)
             ax2.set_xlabel(name)
-            ax2.set_ylabel("Fraction")
+            ax2.set_ylabel("Histogram and Best Fit PDF")
             ax1.grid(b=True, which='both', color='black', linestyle='-', linewidth=1)
             #ax1.grid(b=True, which='major', color='black', linestyle='--')
             ax2.grid(True)
